@@ -1,0 +1,28 @@
+flowchart TD
+    A[Start] --> B[Choose difficulty: easy/medium/hard]
+    B --> C[Set lives & word length range]
+    C --> D[Try get_word_from_api]
+    D -->|Success| E[Use API word]
+    D -->|Fail| F[Pick word from LOCAL_WORDS]
+    E --> G[Init guessed_letters = empty, hint_used = False]
+    F --> G
+    G --> H[Display tracker word/guesses/lives]
+    H --> I{hint_used?}
+    I -->|No| J[Show middle-letter hint]
+    I -->|Yes| K
+    J --> K[Set hint_used = True]
+    K --> L{All letters guessed?}
+    L -->|Yes| M[🎉 Win - show word]
+    L -->|No| N[Prompt: guess a letter]
+    N --> O{Valid single letter & not repeated?}
+    O -->|No| H
+    O -->|Yes| P[Add to guessed_letters]
+    P --> Q{Letter in word?}
+    Q -->|Yes| R[Correct guess]
+    Q -->|No| S[Wrong guess: lives -= 1]
+    R --> T{lives > 0?}
+    S --> T
+    T -->|Yes| H
+    T -->|No| U[💀 Game Over - show word]
+    M --> V[End]
+    U --> V
